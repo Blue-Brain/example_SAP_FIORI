@@ -1,4 +1,4 @@
-/*global location history */
+/*Написал функцию вывода сегодняшней даты*/
 sap.ui.define([
 	"./BaseController",
 	"sap/ui/model/json/JSONModel",
@@ -6,92 +6,76 @@ sap.ui.define([
 	"../model/formatter"
 ], function (BaseController, JSONModel, History, formatter) {
 	"use strict";
-
 	return BaseController.extend("mycompany.myapp.MyWorklistApp.controller.Object", {
-
 		formatter: formatter,
-
 		/* =========================================================== */
 		/* lifecycle methods                                           */
 		/* =========================================================== */
-
 		/**
 		 * Called when the worklist controller is instantiated.
 		 * @public
 		 */
-		onInit : function () {
+		onInit: function () {
 			// Model used to manipulate control states. The chosen values make sure,
 			// detail page is busy indication immediately so there is no break in
 			// between the busy indication for loading the view's meta data
-			var iOriginalBusyDelay,
-				oViewModel = new JSONModel({
-					busy : true,
-					delay : 0
-				});
-
+			var iOriginalBusyDelay, oViewModel = new JSONModel({
+				busy: true,
+				delay: 0
+			});
 			this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
-
 			// Store original busy indicator delay, so it can be restored later on
 			iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
 			this.setModel(oViewModel, "objectView");
 			this.getOwnerComponent().getModel().metadataLoaded().then(function () {
-					// Restore original busy indicator delay for the object view
-					oViewModel.setProperty("/delay", iOriginalBusyDelay);
-				}
-			);
+				// Restore original busy indicator delay for the object view
+				oViewModel.setProperty("/delay", iOriginalBusyDelay);
+			});
 		},
-
 		/* =========================================================== */
 		/* event handlers                                              */
 		/* =========================================================== */
-
-
 		/**
 		 * Event handler  for navigating back.
 		 * It there is a history entry we go one step back in the browser history
 		 * If not, it will replace the current entry of the browser history with the worklist route.
 		 * @public
 		 */
-		onNavBack : function() {
+		onNavBack: function () {
 			var sPreviousHash = History.getInstance().getPreviousHash();
-
 			if (sPreviousHash !== undefined) {
 				history.go(-1);
 			} else {
 				this.getRouter().navTo("worklist", {}, true);
 			}
 		},
-
 		/* =========================================================== */
 		/* internal methods                                            */
 		/* =========================================================== */
-
 		/**
 		 * Binds the view to the object path.
 		 * @function
 		 * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
 		 * @private
 		 */
-		_onObjectMatched : function (oEvent) {
-			var sObjectId =  oEvent.getParameter("arguments").objectId;
-			this.getModel().metadataLoaded().then( function() {
+		_onObjectMatched: function (oEvent) {
+			var sObjectId = oEvent.getParameter("arguments").objectId;
+			this.getModel().metadataLoaded().then(function () {
 				var sObjectPath = this.getModel().createKey("Customers", {
-					CustomerID :  sObjectId
+					CustomerID: sObjectId
 				});
 				this._bindView("/" + sObjectPath);
 			}.bind(this));
 		},
-
 		/**
 		 * Binds the view to the object path.
 		 * @function
 		 * @param {string} sObjectPath path to the object to be bound
 		 * @private
 		 */
-		_bindView : function (sObjectPath) {
+		_bindView: function (sObjectPath) {
 			var oViewModel = this.getModel("objectView"),
 				oDataModel = this.getModel();
-
 			this.getView().bindElement({
 				path: sObjectPath,
 				events: {
@@ -111,31 +95,54 @@ sap.ui.define([
 				}
 			});
 		},
-
-		_onBindingChange : function () {
+		_onBindingChange: function () {
 			var oView = this.getView(),
 				oViewModel = this.getModel("objectView"),
 				oElementBinding = oView.getElementBinding();
-
 			// No data for the binding
 			if (!oElementBinding.getBoundContext()) {
 				this.getRouter().getTargets().display("objectNotFound");
 				return;
 			}
-
 			var oResourceBundle = this.getResourceBundle(),
 				oObject = oView.getBindingContext().getObject(),
 				sObjectId = oObject.CustomerID,
 				sObjectName = oObject.CompanyName;
-
 			oViewModel.setProperty("/busy", false);
-
-			oViewModel.setProperty("/shareSendEmailSubject",
-			oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
-			oViewModel.setProperty("/shareSendEmailMessage",
-			oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
+			oViewModel.setProperty("/shareSendEmailSubject", oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
+			oViewModel.setProperty("/shareSendEmailMessage", oResourceBundle.getText("shareSendEmailObjectMessage", [
+				sObjectName,
+				sObjectId,
+				location.href
+			]));
+		},
+		/**
+		 *@memberOf mycompany.myapp.MyWorklistApp.controller.Object
+		 */
+		onShowMessegeDate: function (oEvent) {
+			var data = new Date ();
+			var year = data.getFullYear(),
+				month = data.getMonth(),
+				day = data.getDate();
+				
+				switch (month)
+					{
+					  case 0: month="января"; break;
+					  case 1: month="февраля"; break;
+					  case 2: month="марта"; break;
+					  case 3: month="апреля"; break;
+					  case 4: month="мае"; break;
+					  case 5: month="июня"; break;
+					  case 6: month="июля"; break;
+					  case 7: month="августа"; break;
+					  case 8: month="сентября"; break;
+					  case 9: month="октября"; break;
+					  case 10: month="ноября"; break;
+					  case 11: month="декабря"; break;
+					}
+					
+			sap.m.MessageToast.show("Сегодня: " + day + " " + month + " " + year);
+			//This code was generated by the layout editor.
 		}
-
 	});
-
 });

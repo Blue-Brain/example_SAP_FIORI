@@ -1,29 +1,70 @@
-<mvc:View
-	controllerName="mycompany.myapp.MyWorklistApp.controller.Object"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.f.semantic">
-
-	<semantic:SemanticPage
-		id="page"
-		headerPinnable="false"
-		toggleHeaderOnTitleClick="false"
-		busy="{objectView>/busy}"
-		busyIndicatorDelay="{objectView>/delay}">
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" controllerName="mycompany.myapp.MyWorklistApp.controller.Object"><semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:titleHeading>
-			<Title text="{CompanyName}" />
+			<Title text="{CompanyName}"/>
 		</semantic:titleHeading>
 
 		<semantic:headerContent>
-			<ObjectNumber
-				unit="{Region}"
-			/>
+			<ObjectNumber unit="{Region}"/>
 		</semantic:headerContent>
 
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
 		</semantic:sendEmailAction>
+
+
+	<semantic:content>
+
+
+	    <FlexBox width="100%" id="box3" direction="Column" height="100%">
+
+
+	    <items>
+
+
+	        <FlexBox width="100%" id="box5" height="80%" direction="Column">
+
+
+	            <items>
+
+
+	                <ObjectNumber xmlns="sap.m" unit="{Country}"/>
+
+
+	                <ObjectNumber xmlns="sap.m" unit="{City}"/>
+
+
+	                <ObjectNumber xmlns="sap.m" unit="{Address}"/>
+
+
+	            </items>
+
+
+	        </FlexBox>
+
+
+	        <FlexBox width="100%" id="box6" height="20%" justifyContent="End" direction="Column">
+
+
+	            <items>
+
+
+	                <Button xmlns="sap.m" text="Вывести сегодняшнюю дату" id="button18" width="100%" press="onShowMessegeDate"/>
+
+
+	            </items>
+
+
+	        </FlexBox>
+
+
+	    </items>
+
+
+	    </FlexBox>
+
+
+	</semantic:content>
 
 
 	</semantic:SemanticPage>

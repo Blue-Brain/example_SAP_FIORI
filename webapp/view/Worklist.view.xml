@@ -1,66 +1,59 @@
-<mvc:View
-	controllerName="mycompany.myapp.MyWorklistApp.controller.Worklist"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.f.semantic">
-
-	<semantic:SemanticPage
-		id="page"
-		headerPinnable="false"
-		toggleHeaderOnTitleClick="false">
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" controllerName="mycompany.myapp.MyWorklistApp.controller.Worklist"><semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
 
 		<semantic:titleHeading>
-			<Title text="{i18n>worklistTitle}" />
+			<Title text="{i18n>worklistTitle}"/>
 		</semantic:titleHeading>
 
 		<semantic:content>
-			<Table
-				id="table"
-				width="auto"
-				items="{
-					path: '/Customers',
-					sorter: {
-						path: 'CompanyName',
-						descending: false
-					}
-				}"
-				noDataText="{worklistView>/tableNoDataText}"
-				busyIndicatorDelay="{worklistView>/tableBusyDelay}"
-				growing="true"
-				growingScrollToLoad="true"
-				updateFinished=".onUpdateFinished">
+			<Table id="table" width="auto" items="{      path: '/Customers',      sorter: {       path: 'CompanyName',       descending: false      }     }" noDataText="{worklistView>/tableNoDataText}" busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished">
 
 				<headerToolbar>
-					<Toolbar>
-						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
-						<ToolbarSpacer />
-						<SearchField
-							id="searchField"
-							tooltip="{i18n>worklistSearchTooltip}"
-							search=".onSearch"
-							width="auto">
+					<Toolbar height="110px">
+						<Title id="tableHeader" text="Тестовое задание Чернова Д.Д." width="300px"/>
+						<ToolbarSpacer/>
+					<content>
+					   	<FlexBox width="250px" id="box0_1564041579857" alignItems="Center">
+			                <items>
+			                    <Input xmlns="sap.m" id="inputFactorial" placeholder="Введите число" width="150px"/>
+			                    <Button xmlns="sap.m" text="Посчитать " id="button0" press="factorialN"/>
+					        </items>
+					    </FlexBox>
+					    <FlexBox width="100%" id="box1_1564057074373" alignItems="Center">
+	                        <items>
+	                            <VBox width="100%" direction="Column" id="vbox1">
+	                                <items>
+	                                    <Input xmlns="sap.m" id="inputVersionUp" placeholder="Введите версию"/>
+	                                    <Input xmlns="sap.m" id="inputVersionDown" value="4.3.2.1" placeholder="4.3.2.1"/>
+	                                </items>
+	                            </VBox>
+	                        </items>
+	                        <Button xmlns="sap.m" text="Сравнить версии" id="button0_1564060324423" press="onCompareVersion"/>
+					    </FlexBox>
+					</content>
+					<FlexBox width="100%" id="box1" justifyContent="End">
+					    <items>
+					        <Button xmlns="sap.m" text="Google" id="button2" press="onNewWindows"/>
+					        <SearchField xmlns="sap.m" id="searchField" tooltip="{i18n>worklistSearchTooltip}" search=".onSearch" width="auto">
 						</SearchField>
+					    </items>
+					</FlexBox>
 					</Toolbar>
 				</headerToolbar>
 
 				<columns>
 					<Column id="nameColumn">
-						<Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>
+						<Text text="Клиент" id="nameColumnTitle"/>
 					</Column>
 					<Column id="unitNumberColumn" hAlign="End">
-						<Text text="{i18n>tableUnitNumberColumnTitle}" id="unitNumberColumnTitle"/>
+						<Text text="Регион" id="unitNumberColumnTitle"/>
 					</Column>
 				</columns>
 
 				<items>
-					<ColumnListItem
-						type="Navigation"
-						press=".onPress">
+					<ColumnListItem type="Navigation" press=".onPress">
 						<cells>
-							<ObjectIdentifier
-								title="{CompanyName}"/>
-							<ObjectNumber
-								unit="{Region}"/>
+							<ObjectIdentifier title="{CompanyName}"/>
+							<ObjectNumber unit="{Region}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
